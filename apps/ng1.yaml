@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ng1
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: charts/myapp
+    repoURL: https://github.com/shatisDevops/argo.git
+    targetRevision: main
+    helm:
+      releaseName: myapp
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ng1
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
